@@ -1,16 +1,15 @@
 {
   "name": "Lazy Pandora Listener",
-  "version": "0.1",
+  "version": "3.14",
   "description": "We tell Pandora that you're still listening.",
   "permissions": [
-    "*://*",
-    "notifications",
+    "http://www.pandora.com/",
     "tabs"    
   ],
   "content_scripts": [
-   {
-        "matches": ["<all_urls>"],
-        "js": ["awesome.js"]        
+    {
+        "matches": ["http://www.pandora.com/*"],
+        "js": ["awesome.js"]
     }
   ]
 }
