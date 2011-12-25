@@ -3,12 +3,15 @@
   "version": "0.1",
   "description": "We tell Pandora that you're still listening.",
   "permissions": [
-    "http://www.pandora.com/"
+    "*://*",
+    "notifications",
+    "tabs"    
   ],
+
   "content_scripts": [
-    {
-        "matches": ["http://www.pandora.com/*"],
-        "js": ["awesome.js"]
+   {
+        "matches": ["<all_urls>"],
+        "js": ["awesome.js"]        
     }
   ]
 }
