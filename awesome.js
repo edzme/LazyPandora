@@ -1,90 +1,106 @@
+didSetup = false;
+
+
+function lazySetup(popupElement)
+{
+    if(didSetup){
+        return;
+    }
+    didSetup = true;    
+	document.body.appendChild(popupElement);
+ }
+
+
 function fireEvent(element,event){
     var evt = document.createEvent("HTMLEvents");
     evt.initEvent(event, true, true );
     return!element.dispatchEvent(evt);
 }
 
-localStorage.totalClicks;
+
+
+if(!localStorage.totalClicks){
+    localStorage.totalClicks = 0;
+}
+var countClicks = localStorage.totalClicks;
+var afterFirstPop = 0;
 
 function clickIfExists(){
-    console.log('checking if element exists');
     //switch listening to an element that exists all the time with this line
-    //var listening = document.getElementsByClassName("skinContainer")[0];    
+    //var listening = document.getElementsByClassName("pauseButton")[0];    
     var listening = document.getElementsByClassName("still_listening button btn_bg")[0];
     
+
+    if (afterFirstPop != 1){
+        showPop();
+        afterFirstPop = 1;
+    }
     
-    if(listening){
-        console.log('Booyaa');
-        
+
+
+
+    if(listening) {        
         //if it exists increment
-        if (localStorage.totalClicks)
-          {
-          localStorage.totalClicks= new Number(localStorage.totalClicks)+1;
-          console.log('logged a click!');
-          }
-        else
-          {
-          localStorage.totalClicks=1;
-          console.log('made it =1');
-          }
+        if (localStorage.totalClicks){
+            localStorage.totalClicks= new Number(localStorage.totalClicks)+1;
+            showAgain();
+        }
+        else {
+            localStorage.totalClicks=1;
+        }
         countClicks = localStorage.totalClicks;
-        console.log(countClicks);
         
         fireEvent(listening,'click');
+        setCountInAlert(); 
+        
+        //Run showPop only if we havent run it yet
+        if (afterFirstPop != 1){
+            showPop();
+            afterFirstPop = 1;
+        }
     }
 }
-//checks every 5s
-setInterval(clickIfExists,5000);
 
 
-//showPop displays the popup.. we need to send it a variable?
+//showPop displays the popup.
 function showPop(){
     (function(d) {
-        
         // make the popup element
         var popup = d.createElement('div'),
+        
             setStyle = function(el, styles) {
                 for(var i in styles) {
                     el.style[i] = styles[i];
                 }
             }
-        console.log('createded popup');
+        popup.setAttribute('id', 'lazyPopup');
         // set the style of the popup element
-        setStyle(popup, {position: 'fixed', bottom: '10px', right: '10px', padding: '10px', backgroundColor: 'black', zIndex:510000});
-        var html = [];
-            html.push('<div style="text-align:center; font-size:14px;">',
-                        '<div id="closeButton" style="float:right;font-size:9px;padding:2px;background:white;">close</div>',
-                        'Your music automatically continued ' + countClicks +' times.',
+        setStyle(popup, {visibility: 'visible', position: 'fixed', bottom: '10px', right: '10px', padding: '10px', backgroundColor: 'black', zIndex:510000});
+		var html = [];
+            html.push('<div id="box" style="text-align:center; font-size:14px;border-radius:50px;">',
+            '<input type="button" onclick="document.getElementById(\'lazyPopup\').style.visibility=\'hidden\'" style="float:right;font-size:9px;font-color:black;background:grey;border-radius:5px;" value="close" />',
+                        'Your music automatically continued <span id="thecount">' + countClicks +'</span> times.',
                         '<div style="margin-top: 10px">Be lazy and support Lazy Pandora Listener: ',
                         '<a target="_blank" href="http://www.facebook.com/sharer.php?u=http://bit.ly/tLQeKj&t=Lazy Pandora for Chrome">Share with friends</a>',
                         '</div>',
                       '</div>');
-        console.log('pushed');
+        console.log('this many ' + countClicks)
         popup.innerHTML = html.join('');
-        
-        document.body.appendChild(popup);
-    })(document);    
-    
-    //Start closebutton
-    console.log('got to closebutton');
-    var closeButton = document.getElementById('closeButton');
-    closeButton.addEventListener("click", function(){
-        alert("worked");
-    }, true);
-
-
+        lazySetup(popup);
+    })(document);   
 };
 
-setInterval(showPop, 3000);
+
+//Sets the changing count in the div.. its called after it increments
+function setCountInAlert(){
+    document.getElementById('thecount').innerHTML = countClicks;
+}
+
+//Makes the div visible again after you click close
+function showAgain(){
+    document.getElementById('lazyPopup').style.visibility='visible';
+}
 
 
-
-//displays the popup after 10s
-
-
-
-
-
-
-
-
+//Check every 5 seconds and click, then show the popup that we clicked
+setInterval(clickIfExists,5000);
