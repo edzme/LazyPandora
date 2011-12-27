@@ -22,8 +22,9 @@ function fireEvent(element,event){
 if(!localStorage.totalClicks){
     localStorage.totalClicks = 0;
 }
-var countClicks = localStorage.totalClicks;
+var countClicks = parseInt(localStorage.totalClicks) || 0;
 var afterFirstPop = 0;
+var totalReloads = 0;
 
 function clickIfExists(){
     //switch listening to an element that exists all the time with this line
@@ -36,6 +37,11 @@ function clickIfExists(){
         afterFirstPop = 1;
     }
     
+    //if you see a video then reload
+    var videoPlayer = document.getElementById("videoPlayer");
+    if (videoPlayer) {
+        if (videoPlayer.offsetTop != 0) window.reload();       
+    }
 
 
 
@@ -75,9 +81,9 @@ function showPop(){
             }
         popup.setAttribute('id', 'lazyPopup');
         // set the style of the popup element
-        setStyle(popup, {visibility: 'visible', position: 'fixed', bottom: '10px', right: '10px', padding: '10px', backgroundColor: 'black', zIndex:510000});
+        setStyle(popup, {visibility: 'visible', position: 'fixed', bottom: '10px', right: '10px', padding: '10px', zIndex:510000});
 		var html = [];
-            html.push('<div id="box" style="text-align:center; font-size:14px;border-radius:50px;">',
+            html.push('<div id="box" style="text-align:center; font-size:14px;border-radius:10px;padding:10px;background-color:black;">',
             '<input type="button" onclick="document.getElementById(\'lazyPopup\').style.visibility=\'hidden\'" style="float:right;font-size:9px;font-color:black;background:grey;border-radius:5px;" value="close" />',
                         'Your music automatically continued <span id="thecount">' + countClicks +'</span> times.',
                         '<div style="margin-top: 10px">Be lazy and support Lazy Pandora Listener: ',
@@ -102,5 +108,5 @@ function showAgain(){
 }
 
 
-//Check every 5 seconds and click, then show the popup that we clicked
-setInterval(clickIfExists,5000);
+//Check every 3 seconds and click, then show the popup that we clicked
+setInterval(clickIfExists,3000);
