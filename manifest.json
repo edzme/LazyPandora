@@ -1,6 +1,6 @@
 {
   "name": "Lazy Pandora Listener",
-  "version": "0.21",
+  "version": "0.22",
   "description": "We tell Pandora that you're still listening.",
   "permissions": [
     "http://www.pandora.com/"
