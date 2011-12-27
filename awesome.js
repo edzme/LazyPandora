@@ -75,9 +75,9 @@ function showPop(){
             }
         popup.setAttribute('id', 'lazyPopup');
         // set the style of the popup element
-        setStyle(popup, {visibility: 'visible', position: 'fixed', bottom: '10px', right: '10px', padding: '10px', zIndex:510000});
+        setStyle(popup, {visibility: 'visible', position: 'fixed', bottom: '10px', right: '10px', padding: '10px', backgroundColor: 'black', zIndex:510000});
 		var html = [];
-            html.push('<div id="box" style="background-color:black; text-align:center; font-size:14px;-webkit-border-radius:10px; padding:7px;">',
+            html.push('<div id="box" style="text-align:center; font-size:14px;border-radius:50px;">',
             '<input type="button" onclick="document.getElementById(\'lazyPopup\').style.visibility=\'hidden\'" style="float:right;font-size:9px;font-color:black;background:grey;border-radius:5px;" value="close" />',
                         'Your music automatically continued <span id="thecount">' + countClicks +'</span> times.',
                         '<div style="margin-top: 10px">Be lazy and support Lazy Pandora Listener: ',
