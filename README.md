@@ -1,7 +1,7 @@
 # LazyPandora
 LazyPandora
 
-h3. What is this?
+# What is this?  
 This is a small chrome extension that searches for the "I'm still listening" button in Pandora, and clicks it to enable a non-stop listening experience.
 
 A few friends helped me make it as way to start learning to code.
